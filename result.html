@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分析结果</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>分析结果</h2>
+    <p><strong>风险等级：</strong>{{ result.risk_level }}</p>
+    <p><strong>评分：</strong>{{ result.score }}</p>
+    <h3>指标分析</h3>
+    <ul>
+        {% for item in result.analysis %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+    <h3>建议</h3>
+    <ul>
+        {% for item in result.suggestions %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

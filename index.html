@@ -18,6 +18,8 @@
         <button id="close-btn">关闭</button>
     </div>
 
+    <div id="result-container"></div>
+
     <script>
         document.getElementById('search-btn').addEventListener('click', function() {
             document.getElementById('search-box').style.display = 'block';
@@ -42,15 +44,11 @@
                 },
                 body: JSON.stringify({ input: userInput, prompt: prompt })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    alert(`风险等级：${data.risk_level}\n评分：${data.score}\n\n指标分析：\n${data.analysis.join('\n')}\n\n建议：\n${data.suggestions.join('\n')}`);
-                }
+           .then(response => response.text())
+           .then(data => {
+                document.getElementById('result-container').innerHTML = data;
             })
-            .catch(error => {
+           .catch(error => {
                 alert('系统繁忙，请稍后再试');
             });
         });
