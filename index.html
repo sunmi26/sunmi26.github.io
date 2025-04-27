@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地下水地震风险智能体</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <button id="search-btn">搜索</button>
+    </div>
+
+    <div id="search-box">
+        <input type="text" id="user-input" placeholder="请输入检测数据（例：四川雅安（2025年4月）氡含量15.8Bq/L（历史10.2）水位12.5m（历史12.0））">
+        <input type="text" id="prompt-input" placeholder="请输入提示词">
+        <button id="send-btn">发送</button>
+        <button id="close-btn">关闭</button>
+    </div>
+
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function() {
+            document.getElementById('search-box').style.display = 'block';
+        });
+
+        document.getElementById('close-btn').addEventListener('click', function() {
+            document.getElementById('search-box').style.display = 'none';
+        });
+
+        document.getElementById('send-btn').addEventListener('click', function() {
+            const userInput = document.getElementById('user-input').value.trim();
+            const prompt = document.getElementById('prompt-input').value.trim();
+            if (!userInput || !prompt) {
+                alert('输入不能为空，请提供有效的检测数据和提示词。');
+                return;
+            }
+
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input: userInput, prompt: prompt })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(`风险等级：${data.risk_level}\n评分：${data.score}\n\n指标分析：\n${data.analysis.join('\n')}\n\n建议：\n${data.suggestions.join('\n')}`);
+                }
+            })
+            .catch(error => {
+                alert('系统繁忙，请稍后再试');
+            });
+        });
+    </script>
+</body>
+</html>
