@@ -7,6 +7,7 @@
     <title>地下水地震风险智能体</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- 同一目录直接引用 -->
 </head>
 
 <body class="bg-gray-100 font-sans">
@@ -62,15 +63,15 @@
                 },
                 body: JSON.stringify({ input: userInput, prompt: prompt })
             })
-              .then(response => response.text())
-              .then(data => {
+                .then(response => response.text())
+                .then(data => {
                     document.getElementById('result-container').innerHTML = data;
                 })
-              .catch(error => {
+                .catch(error => {
                     alert('系统繁忙，请稍后再试');
                 });
         });
     </script>
 </body>
 
-</html>    
+</html> 
